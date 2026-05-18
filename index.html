@@ -1,136 +1,266 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <title>Мое Резюме</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Резюме - Дмитрий Ванкаев</title>
     <style>
-        /* Общие настройки страницы */
+        /* Базовые стили и переменные */
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f8f9fa;
+            --text: #333;
+        }
+        
         body {
-            font-family: Tahoma, serif; /* [cite: 337, 338] */
-            color: #333333; /* 3. цвет текста [cite: 357] */
-            background-color: #f0f4f8;
-            transition: background-color 0.5s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
         }
 
-        /* Настройки карточки резюме */
-        .resume-card {
-            background-color: white;
-            border: 2px solid #2c3e50; /* 4. рамки [cite: 358] */
-            border-radius: 15px;
-            padding: 30px;
-            width: 350px;
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2); /* 2. тени [cite: 356] */
-            text-align: center;
+        /* Адаптивный контейнер */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        /* Настройки фотографии [cite: 360] */
-        .profile-pic {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 3px solid #3498db; 
-            object-fit: cover;
-            margin-bottom: 15px;
-        }
-
-        /* Заголовки */
-        h1 {
-            font-size: 26px; /* 1. размеры шрифтов [cite: 355] */
-            color: #2c3e50;
-            margin: 10px 0;
-        }
-
-        h2 {
-            font-size: 20px; /* 1. размеры шрифтов [cite: 355] */
-            color: #7f8c8d;
-            margin: 5px 0 20px 0;
-        }
-
-        /* Элементы управления */
-        .controls {
+        /* Шапка резюме (Flexbox) */
+        header {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        input {
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #bdc3c7;
-            border-radius: 5px;
+        h1 { margin: 10px 0; color: var(--primary); }
+        .subtitle { color: #7f8c8d; font-size: 1.2rem; }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         button {
-            padding: 10px;
-            font-size: 14px;
-            color: white;
-            background-color: #3498db;
+            padding: 10px 20px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
         }
 
-        /* 5. изменения цвета при наведении [cite: 359] */
-        button:hover {
-            background-color: #2980b9; 
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: #2980b9; transform: translateY(-2px); }
+        .btn-outline { background: white; border: 2px solid var(--accent); color: var(--accent); }
+        .btn-outline:hover { background: var(--accent); color: white; transform: translateY(-2px); }
+
+        /* Секции и сетка (Grid) */
+        section { padding: 50px 0; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        @media (min-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr 1fr; }
         }
 
-        .btn-random {
-            background-color: #e67e22;
+        /* Таблица (Опыт и образование) */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th { background-color: var(--primary); color: white; }
+
+        /* Раскрывающиеся списки (Проекты) */
+        details {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--accent);
+        }
+        .details-content { padding-top: 10px; color: #555; }
+
+        /* Форма обратной связи */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        input, textarea {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
         }
 
-        .btn-random:hover {
-            background-color: #d35400; /* 5. изменения цвета при наведении [cite: 359] */
+        /* Выезжающая панель (Offcanvas) */
+        .side-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 300px;
+            height: 100vh;
+            background: var(--primary);
+            color: white;
+            padding: 30px;
+            transition: right 0.4s ease;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+        .side-panel.open { right: 0; }
+        .close-btn {
+            background: none;
+            color: white;
+            font-size: 24px;
+            border: none;
+            cursor: pointer;
+            text-align: right;
+            width: 100%;
+        }
+
+        /* Анимация при скролле */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
 
-    <div class="resume-card">
-        <img src="https://via.placeholder.com/150/3498db/FFFFFF?text=Photo" alt="Мое фото" class="profile-pic">
-        
-        <h1>Дмитрий</h1>
-        <h2 id="surnameText">Ванькаев</h2>
-        
-        <div class="controls">
-            <input type="text" id="surnameInput" placeholder="Введите новую фамилию">
-            <button onclick="changeSurname()">Изменить фамилию</button>
-            
-            <button class="btn-random" onclick="changeBackgroundColor()">Случайный фон</button>
+    <div id="sidePanel" class="side-panel">
+        <button class="close-btn" onclick="togglePanel()">✖</button>
+        <h3>Обо мне</h3>
+        <p>Увлекаюсь разработкой HMI-интерфейсов, промышленной автоматизацией и моддингом железа. Всегда ищу нестандартные пути решения технических задач.</p>
+    </div>
+
+    <header>
+        <h1>Дмитрий Ванкаев</h1>
+        <p class="subtitle">Студент МГТУ СТАНКИН | Разработчик C# / .NET</p>
+        <div class="btn-group">
+            <button class="btn-primary" onclick="scrollToContact()">Связаться со мной</button>
+            <button class="btn-outline" onclick="alert('Скачивание резюме началось...')">Скачать PDF</button>
+            <button class="btn-outline" onclick="togglePanel()">Подробнее</button>
         </div>
+    </header>
+
+    <div class="container">
+        <section class="grid-2 fade-in">
+            <div>
+                <h2>Образование и Работа</h2>
+                <table>
+                    <tr>
+                        <th>Период</th>
+                        <th>Организация - Роль</th>
+                    </tr>
+                    <tr>
+                        <td>2023 - Н.в.</td>
+                        <td>МГТУ СТАНКИН - Студент (АДБ-23-07)</td>
+                    </tr>
+                    <tr>
+                        <td>2026</td>
+                        <td>Yandex.Smena - Работник торгового зала</td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <h2>Ключевые навыки</h2>
+                <details>
+                    <summary>Программирование и ПО</summary>
+                    <div class="details-content">C#, .NET, HTML, CSS, JS, MasterSCADA 4D.</div>
+                </details>
+                <details>
+                    <summary>Hardware и Моддинг</summary>
+                    <div class="details-content">Сборка и ремонт ПК (H510, Intel i3), восстановление Asus Eee PC 1000HD. Прошивка консолей (muOS, PSP Street).</div>
+                </details>
+            </div>
+        </section>
+
+        <section id="contact" class="fade-in">
+            <h2>Связаться со мной</h2>
+            <form id="contactForm" onsubmit="validateForm(event)">
+                <input type="text" id="name" placeholder="Ваше имя" required>
+                <input type="email" id="email" placeholder="Ваш Email" required>
+                <textarea id="message" rows="5" placeholder="Сообщение..." required></textarea>
+                <button type="submit" class="btn-primary">Отправить сообщение</button>
+            </form>
+        </section>
     </div>
 
     <script>
-        // Функция для изменения фамилии 
-        function changeSurname() {
-            // Получаем значение из поля ввода
-            let newSurname = document.getElementById("surnameInput").value;
-            
-            // Проверяем, не пустое ли поле
-            if (newSurname.trim() !== "") {
-                // Меняем текст в элементе с id="surnameText"
-                document.getElementById("surnameText").innerText = newSurname;
-                // Очищаем поле ввода
-                document.getElementById("surnameInput").value = "";
-            } else {
-                alert("Пожалуйста, введите фамилию!");
-            }
+        // 1. Плавный скролл
+        function scrollToContact() {
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Функция для изменения цвета фона на рандомный 
-        function changeBackgroundColor() {
-            // Генерируем случайный цвет в формате HEX (например, #a3f2b1)
-            let randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-            
-            // Применяем цвет к фону страницы
-            document.body.style.backgroundColor = randomColor;
+        // 2. Открытие/закрытие выезжающей панели
+        function togglePanel() {
+            const panel = document.getElementById('sidePanel');
+            panel.classList.toggle('open');
         }
+
+        // 3. Базовая валидация формы
+        function validateForm(event) {
+            event.preventDefault(); // Останавливаем стандартную отправку
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            if(name.length < 2) {
+                alert("Имя должно содержать минимум 2 символа.");
+                return;
+            }
+            if(!email.includes('@')) {
+                alert("Введите корректный email.");
+                return;
+            }
+            alert("Спасибо, " + name + "! Ваше сообщение отправлено.");
+            document.getElementById('contactForm').reset();
+        }
+
+        // 4. Анимация появления элементов при прокрутке (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
     </script>
 </body>
 </html>
