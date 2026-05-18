@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Резюме Дмитрия Ванькаева | C# / .NET Developer</title>
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --success: #4cc9f0;
+            --border: #dee2e6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            padding-top: 70px; /* Space for fixed header */
+            transition: var(--transition);
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 15px 5%;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        nav a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a:hover:after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        h2:after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Offcanvas Panel */
+        .offcanvas {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100%;
+            background: white;
+            z-index: 1001;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: right 0.4s ease;
+            padding: 30px 25px;
+            overflow-y: auto;
+        }
+
+        .offcanvas.active {
+            right: 0;
+        }
+
+        .offcanvas-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-offcanvas {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .offcanvas-content p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Experience & Education Table */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            margin: 30px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            padding: 16px 20px;
+            text-align: left;
+        }
+
+        td {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9ff;
+        }
+
+        tr:hover {
+            background-color: #eef2ff;
+        }
+
+        /* Projects Accordion */
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .accordion-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: white;
+        }
+
+        .accordion-header {
+            width: 100%;
+            text-align: left;
+            padding: 18px 25px;
+            background: white;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-header:hover {
+            background-color: #f8f9ff;
+        }
+
+        .accordion-header::after {
+            content: '+';
+            font-size: 1.4rem;
+            transition: var(--transition);
+        }
+
+        .accordion-item.active .accordion-header::after {
+            content: '-';
+        }
+
+        .accordion-content {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            background: #f8f9ff;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 500px;
+            padding: 0 25px 25px;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Contact Form */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .contact-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Fixed Action Buttons */
+        .action-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 999;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h3:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .offcanvas {
+                width: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .header-container {
+                padding: 0;
+            }
+
+            nav ul {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                text-align: center;
+                transition: right 0.4s ease;
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+                padding: 20px 0;
+            }
+
+            nav ul.active {
+                right: 0;
+            }
+
+            nav ul li {
+                margin: 15px 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .action-buttons {
+                flex-direction: row;
+                bottom: 15px;
+                right: 15px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            section {
+                margin-bottom: 60px;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .offcanvas {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="header-container">
+            <div class="logo">DV</div>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">&#9776;</button>
+            <nav>
+                <ul id="main-nav">
+                    <li><a href="#about">Обо мне</a></li>
+                    <li><a href="#experience">Опыт и образование</a></li>
+                    <li><a href="#projects">Проекты</a></li>
+                    <li><a href="#skills">Навыки</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                    <!-- Ссылки на другие задания в репозитории -->
+                    <li><a href="task1-2.html">Задание 1-2</a></li>
+                    <li><a href="task3.html">Задание 3</a></li>
+                    <li><a href="task4.html">Задание 4</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- About Section -->
+        <section id="about">
+            <div class="about-content">
+                <div class="about-text">
+                    <h1>Дмитрий Ванькаев</h1>
+                    <h2>Студент МГТУ СТАНКИН (АДБ-23-07), разработчик C# / .NET</h2>
+                    <p>Молодой специалист в области разработки программного обеспечения с опытом работы в сфере IT и промышленной автоматизации. Студент факультета автоматизации и цифрового управления бизнес-процессами, углубленно изучающий технологии разработки на платформе .NET.</p>
+                    <p>Имею практический опыт в разработке HMI-интерфейсов, работе с системами SCADA, а также в сборке и ремонте компьютерной техники различного уровня сложности.</p>
+                    <button class="btn" id="more-info-btn">Подробнее обо мне</button>
+                    <a href="#" class="btn btn-secondary" id="download-resume">Скачать резюме</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience & Education Section -->
+        <section id="experience">
+            <h2>Опыт работы и образование</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Тип</th>
+                            <th>Организация</th>
+                            <th>Должность/Специальность</th>
+                            <th>Период</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Работа</td>
+                            <td>Yandex.Smena</td>
+                            <td>Работник торгового зала</td>
+                            <td>2024 - настоящее время</td>
+                        </tr>
+                        <tr>
+                            <td>Образование</td>
+                            <td>МГТУ СТАНКИН</td>
+                            <td>АДБ-23-07 (Автоматизация и цифровое управление бизнес-процессами)</td>
+                            <td>2023 - настоящее время</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Projects Section (Accordion) -->
+        <section id="projects">
+            <h2>Мои проекты</h2>
+            <div class="accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">Разработка HMI-интерфейсов на MasterSCADA 4D</button>
+                    <div class="accordion-content">
+                        <p>Разработка человеко-машинного интерфейса для управления производственной линией. Создание визуализации технологических процессов, настройка тревог и уведомлений, интеграция с промышленным оборудованием через протоколы Modbus TCP и OPC UA.</p>
+                        <p>Использованные технологии: MasterSCADA 4D, SQL Server, C# для написания пользовательских скриптов.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Моддинг портативных игровых консолей</button>
+                    <div class="accordion-content">
+                        <p>Прошивка и моддинг портативных игровых консолей (PSP, Nintendo Switch Lite). Установка кастомных прошивок, таких как muOS, для расширения функциональности устройств и запуска эмуляторов ретро-консолей.</p>
+                        <p>Проведение аппаратных модификаций: замена экранов, установка дополнительной памяти, настройка системы охлаждения.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header">Сборка и ремонт ПК</button>
+                    <div class="accordion-content">
+                        <p>Сборка персональных компьютеров на базе различных комплектующих: материнские платы H510, процессоры Intel Core i3, ноутбуки Asus Eee PC 1000HD.</p>
+                        <p>Диагностика и ремонт неисправностей, замена компонентов, установка и настройка операционных систем, оптимизация производительности.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills">
+            <h2>Навыки</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>Технические навыки</h3>
+                    <ul class="skill-list">
+                        <li>C# / .NET Framework</li>
+                        <li>MasterSCADA 4D</li>
+                        <li>Разработка HMI-интерфейсов</li>
+                        <li>Промышленная автоматизация</li>
+                        <li>Сборка и ремонт ПК</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3>Программное обеспечение</h3>
+                    <ul class="skill-list">
+                        <li>Visual Studio</li>
+                        <li>SQL Server Management Studio</li>
+                        <li>MasterSCADA Designer</li>
+                        <li>Windows / Linux</li>
+                        <li>Git / GitHub</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3>Дополнительные навыки</h3>
+                    <ul class="skill-list">
+                        <li>Прошивка и моддинг консолей</li>
+                        <li>Работа с электронными компонентами</li>
+                        <li>Техническая документация</li>
+                        <li>Английский язык (Intermediate)</li>
+                        <li>Работа в команде</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2>Связаться со мной</h2>
+                    <p>Готов обсудить возможности сотрудничества, ответить на ваши вопросы или просто пообщаться на тему разработки программного обеспечения и промышленной автоматизации.</p>
+                    <p>Используйте форму ниже для отправки сообщения, и я свяжусь с вами в ближайшее время.</p>
+                </div>
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Имя</label>
+                        <input type="text" id="name" required>
+                        <div class="error-message" id="name-error">Пожалуйста, введите ваше имя</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required>
+                        <div class="error-message" id="email-error">Пожалуйста, введите корректный email</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Сообщение</label>
+                        <textarea id="message" required></textarea>
+                        <div class="error-message" id="message-error">Сообщение не может быть пустым</div>
+                    </div>
+                    <button type="submit" class="btn">Отправить сообщение</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Offcanvas Panel (More Info) -->
+    <div class="offcanvas" id="offcanvas">
+        <div class="offcanvas-header">
+            <h2>Подробнее обо мне</h2>
+            <button class="close-offcanvas" id="close-offcanvas">&times;</button>
+        </div>
+        <div class="offcanvas-content">
+            <p>Меня зовут Дмитрий Ванькаев, я студент МГТУ СТАНКИН на факультете автоматизации и цифрового управления бизнес-процессами. Моя специализация связана с разработкой программного обеспечения для промышленной автоматизации и управления производственными процессами.</p>
+            
+            <p>Наряду с учебой, я активно занимаюсь практическими проектами в области разработки HMI-интерфейсов с использованием системы MasterSCADA 4D. Эти навыки позволяют мне создавать интуитивно понятные и функциональные интерфейсы для операторов производственных линий.</p>
+            
+            <p>Кроме профессиональных интересов, я увлекаюсь моддингом портативных игровых консолей и сборкой персональных компьютеров. Этот хобби-аспект помогает мне лучше понимать аппаратную часть компьютерных систем и развивает навыки работы с электронными компонентами.</p>
+            
+            <p>В свободное время я изучаю новые технологии в области .NET разработки, углубляю знания в области промышленной автоматизации и участвую в open-source проектах на GitHub.</p>
+            
+            <p>Моя цель - стать профессионалом в области разработки программного обеспечения для промышленной автоматизации, объединяя теоретические знания, полученные в университете, с практическим опытом, приобретенным в ходе реализации реальных проектов.</p>
+        </div>
+    </div>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Fixed Action Buttons -->
+    <div class="action-buttons">
+        <button class="btn" id="scroll-to-contact">Связаться со мной</button>
+        <a href="#" class="btn btn-secondary" id="download-resume-bottom">Скачать резюме</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Дмитрий Ванькаев</h3>
+                <p>Студент МГТУ СТАНКИН (АДБ-23-07), разработчик C# / .NET с опытом в промышленной автоматизации и разработке HMI-интерфейсов.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link">in</a>
+                    <a href="#" class="social-link">gh</a>
+                    <a href="#" class="social-link">tg</a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Основные навыки</h3>
+                <ul class="skill-list">
+                    <li>C# / .NET разработка</li>
+                    <li>MasterSCADA 4D</li>
+                    <li>Разработка HMI-интерфейсов</li>
+                    <li>Сборка и ремонт ПК</li>
+                    <li>Моддинг игровых консолей</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Другие проекты</h3>
+                <ul class="skill-list">
+                    <li><a href="task1-2.html" style="color: white; text-decoration: none;">Задание 1-2</a></li>
+                    <li><a href="task3.html" style="color: white; text-decoration: none;">Задание 3</a></li>
+                    <li><a href="task4.html" style="color: white; text-decoration: none;">Задание 4</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Дмитрий Ванькаев. Все права защищены.
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const moreInfoBtn = document.getElementById('more-info-btn');
+        const closeOffcanvas = document.getElementById('close-offcanvas');
+        const offcanvas = document.getElementById('offcanvas');
+        const overlay = document.getElementById('overlay');
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        const contactForm = document.getElementById('contact-form');
+        const scrollToContactBtn = document.getElementById('scroll-to-contact');
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mainNav = document.getElementById('main-nav');
+        const downloadResumeBtns = document.querySelectorAll('#download-resume, #download-resume-bottom');
+        
+        // Mobile Menu Toggle
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            mobileMenuBtn.textContent = mainNav.classList.contains('active') ? '×' : '☰';
+        });
+        
+        // Offcanvas Panel
+        moreInfoBtn.addEventListener('click', () => {
+            offcanvas.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+        
+        closeOffcanvas.addEventListener('click', () => {
+            offcanvas.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = ''; // Restore scrolling
+        });
+        
+        overlay.addEventListener('click', () => {
+            offcanvas.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Accordion Functionality
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const item = header.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // Close all items
+                document.querySelectorAll('.accordion-item').forEach(i => {
+                    i.classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+        
+        // Smooth Scroll to Contact Form
+        scrollToContactBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('contact').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+        
+        // Download Resume (Placeholder)
+        downloadResumeBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                alert('Функция загрузки резюме в разработке. В реальном проекте здесь будет ссылка на PDF-файл.');
+            });
+        });
+        
+        // Form Validation
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Reset error messages
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            let isValid = true;
+            
+            // Name validation
+            if (name === '') {
+                document.getElementById('name-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('email-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            // Message validation
+            if (message === '') {
+                document.getElementById('message-error').style.display = 'block';
+                isValid = false;
+            }
+            
+            // If valid, submit form (in real scenario)
+            if (isValid) {
+                alert('Спасибо за сообщение! Я свяжусь с вами в ближайшее время.');
+                contactForm.reset();
+            }
+        });
+        
+        // Scroll Animation for Sections
+        const sections = document.querySelectorAll('section');
+        
+        const sectionObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    sectionObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        sections.forEach(section => {
+            sectionObserver.observe(section);
+        });
+        
+        // Close mobile menu when clicking a nav link
+        document.querySelectorAll('#main-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+    </script>
+</body>
+</html>
