@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Мое Резюме</title>
+    <style>
+        /* Общие настройки страницы */
+        body {
+            font-family: Tahoma, serif; /* [cite: 337, 338] */
+            color: #333333; /* 3. цвет текста [cite: 357] */
+            background-color: #f0f4f8;
+            transition: background-color 0.5s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Настройки карточки резюме */
+        .resume-card {
+            background-color: white;
+            border: 2px solid #2c3e50; /* 4. рамки [cite: 358] */
+            border-radius: 15px;
+            padding: 30px;
+            width: 350px;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2); /* 2. тени [cite: 356] */
+            text-align: center;
+        }
+
+        /* Настройки фотографии [cite: 360] */
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid #3498db; 
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        /* Заголовки */
+        h1 {
+            font-size: 26px; /* 1. размеры шрифтов [cite: 355] */
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+
+        h2 {
+            font-size: 20px; /* 1. размеры шрифтов [cite: 355] */
+            color: #7f8c8d;
+            margin: 5px 0 20px 0;
+        }
+
+        /* Элементы управления */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 14px;
+            color: white;
+            background-color: #3498db;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* 5. изменения цвета при наведении [cite: 359] */
+        button:hover {
+            background-color: #2980b9; 
+        }
+
+        .btn-random {
+            background-color: #e67e22;
+        }
+
+        .btn-random:hover {
+            background-color: #d35400; /* 5. изменения цвета при наведении [cite: 359] */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="resume-card">
+        <img src="https://via.placeholder.com/150/3498db/FFFFFF?text=Photo" alt="Мое фото" class="profile-pic">
+        
+        <h1>Дмитрий</h1>
+        <h2 id="surnameText">Ванькаев</h2>
+        
+        <div class="controls">
+            <input type="text" id="surnameInput" placeholder="Введите новую фамилию">
+            <button onclick="changeSurname()">Изменить фамилию</button>
+            
+            <button class="btn-random" onclick="changeBackgroundColor()">Случайный фон</button>
+        </div>
+    </div>
+
+    <script>
+        // Функция для изменения фамилии 
+        function changeSurname() {
+            // Получаем значение из поля ввода
+            let newSurname = document.getElementById("surnameInput").value;
+            
+            // Проверяем, не пустое ли поле
+            if (newSurname.trim() !== "") {
+                // Меняем текст в элементе с id="surnameText"
+                document.getElementById("surnameText").innerText = newSurname;
+                // Очищаем поле ввода
+                document.getElementById("surnameInput").value = "";
+            } else {
+                alert("Пожалуйста, введите фамилию!");
+            }
+        }
+
+        // Функция для изменения цвета фона на рандомный 
+        function changeBackgroundColor() {
+            // Генерируем случайный цвет в формате HEX (например, #a3f2b1)
+            let randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+            
+            // Применяем цвет к фону страницы
+            document.body.style.backgroundColor = randomColor;
+        }
+    </script>
+</body>
+</html>
